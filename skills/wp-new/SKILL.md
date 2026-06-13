@@ -71,8 +71,17 @@ Run the interactive picker. **Batch A** (one AskUserQuestion call, 4 questions, 
    - `Plugin Check (PCP)` — *wordpress.org compliance checking (via wp-plugin-check).*
    - `GitHub Actions CI` — *Lint + test workflow on PR.*
 
+3. **Git & commits** — header `Commits`, single-select
+   - `Manual — commit only when I ask` — *Recommended. Initializes git, but Claude
+     never commits unless you explicitly ask (the default behavior).*
+   - `Auto-commit after each task` — *Initializes git and adds a Stop hook that stages
+     and commits changes automatically as you work.*
+   - `Don't commit at all` — *Claude never runs git. No auto-init; `git commit`/`git push`
+     are added to the deny list so they can't run. You manage version control entirely.*
+
 > If the user picks "Other" / adds notes on any question, honor them. If they skip a
-> question, fall back to the recommended/default option and say so.
+> question, fall back to the recommended/default option and say so. For commits, the
+> default is **Manual** — never set up auto-commit unless the user chose it.
 
 ### Step 3 — The plugin's purpose (ask in prose)
 
@@ -111,9 +120,45 @@ so logic stays DRY:
 | i18n | `wp-i18n` | languages/ + Domain Path + load_plugin_textdomain + .pot note |
 | Distribution = wp.org/Both | `wp-readme` | readme.txt (Stable tag = version) |
 | GitHub Actions CI | this skill | `.github/workflows/ci.yml` (phpcs + phpunit) |
+| Git & commits | this skill, Step 5b | git init + commit behavior per the user's choice |
 
 Merge dependencies intelligently — one `composer.json`, one `package.json` — rather
 than overwriting between steps.
+
+### Step 5b — Git & commit behavior (per the Commits answer)
+
+Set this up **exactly** as the user chose — committing is sensitive, so never assume.
+
+**Manual (default):**
+- `git init` the plugin dir if it isn't already a repo; ensure the generated
+  `.gitignore` is in place.
+- Do **not** auto-commit. Claude commits only when later asked.
+
+**Auto-commit after each task:**
+- `git init` if needed.
+- Add a Stop hook to `{slug}/.claude/settings.json` so changes are committed when a
+  turn ends:
+  ```json
+  "hooks": {
+  	"Stop": [
+  		{
+  			"hooks": [
+  				{
+  					"type": "command",
+  					"command": "git add -A && git diff --cached --quiet || git commit -q -m 'chore: auto-commit (Claude Code)'"
+  				}
+  			]
+  		}
+  	]
+  }
+  ```
+  (The `git diff --cached --quiet ||` guard means it only commits when something is staged — no empty commits.)
+
+**Don't commit at all:**
+- Do **not** run `git init` and do **not** create any commit.
+- Add `"Bash(git commit:*)"` and `"Bash(git push:*)"` to the `deny` list in
+  `{slug}/.claude/settings.json` so commits are hard-blocked even if asked later.
+- Note it clearly in `CLAUDE.md` so the intent is recorded.
 
 ### Step 6 — Claude Code project setup (generate these too)
 
@@ -132,6 +177,7 @@ This is the "pre-setup" payoff: the new plugin opens with Claude already oriente
 - Build: `{npm run build | npm run dev | (no build step)}`
 - Distribution: {wordpress.org | self-hosted | both}
 - WooCommerce/HPOS: {yes | no}
+- Commits: {manual — only when asked | auto-commit after each task | none — Claude must not commit; developer manages git}
 
 ## Conventions
 - WordPress Coding Standards (tabs, escaping on output, sanitization on input).
@@ -149,7 +195,8 @@ This project pairs with the kuira-wp-dev-plugin skills (wp-context auto-loads on
 use wp-endpoint / wp-db / wp-block / wp-security-audit / wp-release as needed).
 ```
 
-**`{slug}/.claude/settings.json`** — sane permissions for WP dev:
+**`{slug}/.claude/settings.json`** — sane permissions for WP dev (the `Commits`
+choice from Step 5b adjusts `deny`, and auto-commit adds the `Stop` hook):
 ```json
 {
 	"permissions": {
@@ -161,6 +208,9 @@ use wp-endpoint / wp-db / wp-block / wp-security-audit / wp-release as needed).
 	}
 }
 ```
+- **Auto-commit** chosen → add the `Stop` hook from Step 5b to this file.
+- **Don't commit at all** chosen → append `"Bash(git commit:*)"` and `"Bash(git push:*)"`
+  to `deny` (and drop `"Bash(git:*)"` from `allow` so commits aren't pre-approved).
 
 (Only add an `.mcp.json` if the developer asks for MCP servers — don't assume.)
 

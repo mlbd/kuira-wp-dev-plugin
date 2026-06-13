@@ -64,9 +64,10 @@ The fastest way in. Type the command in Claude Code:
 
 It runs an interactive wizard — multiple-choice questions for your **frontend stack**
 (React / Vue / vanilla), **distribution target** (wordpress.org or self-hosted),
-**Gutenberg blocks**, **WooCommerce**, plus which **features** (settings page,
-REST/AJAX, custom tables, cron) and **dev tooling** (testing, i18n, Plugin Check, CI)
-you want. Then it asks what the plugin should do, **shows you the plan, waits for your
+**Gutenberg blocks**, **WooCommerce**, which **features** (settings page, REST/AJAX,
+custom tables, cron), **dev tooling** (testing, i18n, Plugin Check, CI), and how you
+want **git commits** handled (manual / auto-commit / never — set up to match your
+choice). Then it asks what the plugin should do, **shows you the plan, waits for your
 OK**, and generates a tailored plugin skeleton with all the right assets/libraries —
 *and* the Claude Code project setup (`CLAUDE.md` + `.claude/settings.json`) so Claude
 is already oriented in your new project.

@@ -9,9 +9,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - `wp-new` skill — interactive `/wp-new` wizard. Runs a multi-step onboarding
   (frontend stack, wordpress.org vs self-hosted, Gutenberg blocks, WooCommerce,
-  features, dev tooling), takes a free-text plugin description, confirms a plan, then
-  generates a tailored plugin file structure (composing the focused skills) plus the
-  Claude Code project setup (`CLAUDE.md` + `.claude/settings.json`).
+  features, dev tooling, and git-commit behavior), takes a free-text plugin
+  description, confirms a plan, then generates a tailored plugin file structure
+  (composing the focused skills) plus the Claude Code project setup (`CLAUDE.md` +
+  `.claude/settings.json`). The commit choice is honored: **manual** (default,
+  Claude never commits unasked), **auto-commit** (adds a Stop hook), or **never**
+  (no git init; `git commit`/`push` denied).
 - `wp-scaffold` skill — generates a complete, WPCS-compliant new-plugin skeleton
   (main file + header, singleton bootstrap class, activator/deactivator, an admin
   page that enqueues assets, `composer.json` wired to WPCS, `phpcs.xml.dist`, optional
