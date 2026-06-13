@@ -22,6 +22,19 @@ Everything is plain Markdown, JSON, and shell — no build step, no runtime depe
 
 ---
 
+## Documentation
+
+Full guides live in **[`docs/`](docs/)**:
+
+- **[Getting Started](docs/getting-started.md)** — prerequisites, install, and your first plugin with `/wp-new`, step by step.
+- **[Workflows](docs/workflows.md)** — task recipes (add an endpoint/block/table, test, audit, ship, modernize) with what to expect.
+- **[Skill & Agent Reference](docs/skills-reference.md)** — every command: trigger, module, and output.
+- **[FAQ & Expectations](docs/faq.md)** — what it does, what it won't, requirements, Windows, cost, troubleshooting.
+
+New here? Read **[Getting Started](docs/getting-started.md)** first, then install below.
+
+---
+
 ## Install
 
 This repo is a Claude Code **plugin marketplace** with four plugins. From inside Claude Code:

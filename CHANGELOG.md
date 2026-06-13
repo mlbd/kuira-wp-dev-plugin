@@ -76,6 +76,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `clean/` (the fixes), so the security auditors can be *proven* effective, plus a
   `fixtures/README.md` mapping each issue to its expected detection.
 
+- User documentation in `docs/`: a docs index, a step-by-step **Getting Started**
+  guide, task-based **Workflows** recipes, a full **Skill & Agent Reference**, and an
+  **FAQ & Expectations** page (what the toolkit does, what it won't, requirements,
+  Windows notes, cost, troubleshooting). Linked from the README.
+
 ### Changed
 - **Licensed under GPL-2.0-or-later** (added the `LICENSE` file; switched all four
   `plugin.json` manifests, the README badge/footer, and CONTRIBUTING from MIT). The
