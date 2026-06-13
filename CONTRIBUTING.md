@@ -63,4 +63,4 @@ Be respectful and constructive. We follow the spirit of the
 [Contributor Covenant](https://www.contributor-covenant.org/).
 
 By contributing, you agree your contributions are licensed under the project's
-[MIT License](LICENSE).
+[GPL-2.0-or-later License](LICENSE).

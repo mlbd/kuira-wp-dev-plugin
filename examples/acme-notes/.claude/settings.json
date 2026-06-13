@@ -1,0 +1,16 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(php:*)",
+			"Bash(composer:*)",
+			"Bash(wp:*)",
+			"Bash(npm:*)",
+			"Bash(npx:*)",
+			"Bash(git:*)"
+		],
+		"deny": [
+			"Bash(rm -rf /*)",
+			"Bash(chmod -R 777*)"
+		]
+	}
+}

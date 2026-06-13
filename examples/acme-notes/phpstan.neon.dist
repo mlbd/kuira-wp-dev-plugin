@@ -1,0 +1,13 @@
+includes:
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 5
+	paths:
+		- includes
+		- acme-notes.php
+		- uninstall.php
+	scanDirectories:
+		- vendor/php-stubs
+	bootstrapFiles:
+		- acme-notes.php

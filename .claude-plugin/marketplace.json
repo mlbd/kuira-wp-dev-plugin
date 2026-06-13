@@ -1,13 +1,41 @@
 {
   "name": "kuira-marketplace",
   "owner": {
-    "name": "Mohammad Limon Mia"
+    "name": "Mohammad Limon Mia",
+    "url": "https://github.com/mlbd"
+  },
+  "metadata": {
+    "description": "WordPress plugin development toolkit for Claude Code — install only the lifecycle stages you need.",
+    "version": "1.0.0"
   },
   "plugins": [
     {
-      "name": "kuira-wp-dev-plugin",
-      "source": ".",
-      "description": "WordPress plugin developer toolkit — new-plugin scaffolding, WPCS enforcement, security auditing, Superpowers visual companion routing, and release automation."
+      "name": "kuira-wp-core",
+      "source": "./plugins/kuira-wp-core",
+      "category": "development",
+      "keywords": ["wordpress", "scaffold", "gutenberg", "wpcs", "rest-api"],
+      "description": "Core build experience — /wp-new wizard, scaffolding, secure endpoints, blocks, custom tables, UI routing, WPCS context, and safety hooks. Start here."
+    },
+    {
+      "name": "kuira-wp-quality",
+      "source": "./plugins/kuira-wp-quality",
+      "category": "development",
+      "keywords": ["testing", "phpunit", "playwright", "phpstan", "security"],
+      "description": "Testing (PHPUnit/Playwright/Playground), PHPStan static analysis, security audit, Plugin Check, and auditor agents."
+    },
+    {
+      "name": "kuira-wp-ship",
+      "source": "./plugins/kuira-wp-ship",
+      "category": "development",
+      "keywords": ["release", "deploy", "wordpress.org", "i18n"],
+      "description": "Release + distribution — version bump, dist zip, CI, wordpress.org deploy, readme.txt, i18n, hook docs."
+    },
+    {
+      "name": "kuira-wp-maintain",
+      "source": "./plugins/kuira-wp-maintain",
+      "category": "development",
+      "keywords": ["modernize", "refactor", "php8", "debug"],
+      "description": "Maintenance — legacy modernization, PHP 8.x compatibility, and runtime debugging."
     }
   ]
 }

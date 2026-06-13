@@ -1,0 +1,24 @@
+{
+  "name": "kuira-wp-core",
+  "displayName": "Kuira WP Core",
+  "version": "1.0.0",
+  "description": "Core WordPress plugin development for Claude Code — the /wp-new wizard, scaffolding (React/Vue/vanilla), secure REST/AJAX and custom-table generators, Gutenberg blocks, UI/visual routing, always-on WPCS context, and the safety hooks. Start here.",
+  "author": "Mohammad Limon Mia",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/mlbd/kuira-wp-dev-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlbd/kuira-wp-dev-plugin.git"
+  },
+  "bugs": "https://github.com/mlbd/kuira-wp-dev-plugin/issues",
+  "keywords": ["wordpress", "php", "woocommerce", "gutenberg", "scaffold", "wpcs", "rest-api", "kuira"],
+  "requires": {
+    "claude-code": ">=2.0.0"
+  },
+  "recommends": {
+    "superpowers": "obra/superpowers — install for the wp-ui-visual visual companion",
+    "kuira-wp-quality": "add for testing, static analysis, and security auditing",
+    "kuira-wp-ship": "add for release + wordpress.org deploy",
+    "kuira-wp-maintain": "add for legacy modernization + debugging"
+  }
+}

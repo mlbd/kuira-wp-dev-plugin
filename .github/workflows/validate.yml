@@ -1,0 +1,21 @@
+name: Validate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Validate repo (JSON, skill/agent names, frontmatter, shell)
+        run: bash scripts/validate.sh
+
+      - name: Lint all hook scripts (full report, non-blocking)
+        run: shellcheck hooks/scripts/*.sh statusline.sh scripts/*.sh || true

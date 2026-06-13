@@ -1,0 +1,21 @@
+{
+  "name": "kuira-wp-quality",
+  "displayName": "Kuira WP Quality",
+  "version": "1.0.0",
+  "description": "Quality + correctness for WordPress plugins in Claude Code — PHPUnit (wp-env), Playwright E2E, WordPress Playground, PHPStan static analysis, security auditing, and the official Plugin Check, plus security/code-review/performance/accessibility auditor agents and an opt-in commit quality gate.",
+  "author": "Mohammad Limon Mia",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/mlbd/kuira-wp-dev-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlbd/kuira-wp-dev-plugin.git"
+  },
+  "bugs": "https://github.com/mlbd/kuira-wp-dev-plugin/issues",
+  "keywords": ["wordpress", "testing", "phpunit", "playwright", "phpstan", "security", "accessibility", "kuira"],
+  "requires": {
+    "claude-code": ">=2.0.0"
+  },
+  "recommends": {
+    "kuira-wp-core": "the core build skills this pairs with"
+  }
+}

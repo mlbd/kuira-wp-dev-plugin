@@ -1,0 +1,21 @@
+{
+  "name": "kuira-wp-ship",
+  "displayName": "Kuira WP Ship",
+  "version": "1.0.0",
+  "description": "Release + distribution for WordPress plugins in Claude Code — semantic version bump and dist zip, GitHub Actions CI with wordpress.org SVN auto-deploy, WordPress.org readme.txt generation, i18n/.pot readiness, and a hooks-reference (HOOKS.md) generator.",
+  "author": "Mohammad Limon Mia",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/mlbd/kuira-wp-dev-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlbd/kuira-wp-dev-plugin.git"
+  },
+  "bugs": "https://github.com/mlbd/kuira-wp-dev-plugin/issues",
+  "keywords": ["wordpress", "release", "deploy", "wordpress.org", "i18n", "ci", "kuira"],
+  "requires": {
+    "claude-code": ">=2.0.0"
+  },
+  "recommends": {
+    "kuira-wp-core": "the core build skills this pairs with"
+  }
+}

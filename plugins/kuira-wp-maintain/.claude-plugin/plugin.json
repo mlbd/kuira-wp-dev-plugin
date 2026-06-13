@@ -1,0 +1,21 @@
+{
+  "name": "kuira-wp-maintain",
+  "displayName": "Kuira WP Maintain",
+  "version": "1.0.0",
+  "description": "Maintenance + modernization for existing WordPress plugins in Claude Code — incremental legacy→modern refactoring (OOP, namespacing, modern syntax), PHP 8.x compatibility checking and fixes, and WP_DEBUG-driven runtime diagnosis.",
+  "author": "Mohammad Limon Mia",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/mlbd/kuira-wp-dev-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlbd/kuira-wp-dev-plugin.git"
+  },
+  "bugs": "https://github.com/mlbd/kuira-wp-dev-plugin/issues",
+  "keywords": ["wordpress", "modernize", "refactor", "php8", "legacy", "debug", "kuira"],
+  "requires": {
+    "claude-code": ">=2.0.0"
+  },
+  "recommends": {
+    "kuira-wp-core": "the core build skills this pairs with"
+  }
+}

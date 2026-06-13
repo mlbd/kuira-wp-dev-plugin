@@ -1,17 +1,22 @@
-# Kuira WP Dev Plugin
+# Kuira WP Dev Toolkit
 
-> A Claude Code plugin that pre-configures Claude for **WordPress plugin development** — scaffold new plugins, enforce WordPress Coding Standards (WPCS), audit security, route UI/UX work to a visual companion, and automate releases. Install it once and start building plugins with sensible guardrails already in place.
+> A Claude Code **marketplace of four modular plugins** for **WordPress plugin development** — scaffold new plugins, enforce WordPress Coding Standards (WPCS), test, audit, and ship. Install only the lifecycle stages you need; start building with sensible guardrails already in place.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](LICENSE)
+[![Validate](https://github.com/mlbd/kuira-wp-dev-plugin/actions/workflows/validate.yml/badge.svg)](https://github.com/mlbd/kuira-wp-dev-plugin/actions/workflows/validate.yml)
 
-## What's Inside
+## The four modules
 
-| Component | Count | Purpose |
-|-----------|-------|---------|
-| Skills | 13 | `/wp-new` wizard, scaffold, WP context, secure endpoints, blocks, custom tables, testing, i18n, readme.txt, plugin check, release, security audit, UI/visual routing |
-| Agents | 3 | Security auditor, code reviewer, UI researcher |
-| Hooks | 4 events | PreToolUse bash guard, PostToolUse WPCS, Stop notification, failure hint |
-| MCP | 2 servers | GitHub, Fetch |
+Install only what you want — each is a standalone Claude Code plugin in this marketplace.
+
+| Plugin | Install when you want to… | Contents |
+|--------|---------------------------|----------|
+| **kuira-wp-core** ⭐ | build a WP plugin (start here) | `/wp-new` wizard, scaffold, context (WPCS), endpoints, blocks, DB, UI/visual, help · 8 skills, 1 agent, safety hooks, MCP, statusline |
+| **kuira-wp-quality** | test, analyze, and audit | testing (PHPUnit), E2E (Playwright), Playground, PHPStan, security audit, Plugin Check · 6 skills, 4 auditor agents, opt-in commit gate |
+| **kuira-wp-ship** | release and publish | release, wordpress.org deploy/CI, readme.txt, i18n, hook docs · 5 skills |
+| **kuira-wp-maintain** | fix/modernize existing code | modernize, PHP 8.x compat, debug · 3 skills |
+
+**Totals:** 22 skills, 5 agents across the four. Everything beyond the passive `wp-context` skill and the low-noise core hooks is **opt-in** — skills run only when invoked, generated-plugin features are chosen in `/wp-new`, and the commit gate is off unless you enable it. Run **`/wp-help`** (in core) for the full command map.
 
 Everything is plain Markdown, JSON, and shell — no build step, no runtime dependencies.
 
@@ -19,32 +24,29 @@ Everything is plain Markdown, JSON, and shell — no build step, no runtime depe
 
 ## Install
 
-This repo is a Claude Code **plugin marketplace**. The cleanest way to install it is from inside Claude Code:
+This repo is a Claude Code **plugin marketplace** with four plugins. From inside Claude Code:
 
 ```bash
 # 1. Add this repo as a marketplace
 /plugin marketplace add mlbd/kuira-wp-dev-plugin
 
-# 2. Install the plugin from it
-/plugin install kuira-wp-dev-plugin@kuira-marketplace
+# 2. Install the core (everyone wants this)
+/plugin install kuira-wp-core@kuira-marketplace
+
+# 3. Add any lifecycle stages you want (all optional)
+/plugin install kuira-wp-quality@kuira-marketplace
+/plugin install kuira-wp-ship@kuira-marketplace
+/plugin install kuira-wp-maintain@kuira-marketplace
 ```
 
-> **Recommended companion — Superpowers.** The `wp-ui-visual` skill routes UI/UX work to the Superpowers visual companion when it's available. Install it first for the full experience:
+> **Recommended companion — Superpowers.** The `wp-ui-visual` skill (in core) routes UI/UX work to the Superpowers visual companion when it's available. Install it for the full experience:
 > ```bash
 > /plugin marketplace add obra/superpowers-marketplace
 > /plugin install superpowers@superpowers-marketplace
 > ```
 > Without Superpowers, `wp-ui-visual` falls back to a built-in standalone workflow — nothing breaks.
 
-### Manual install (alternative)
-
-Clone into your Claude config and reload:
-
-```bash
-git clone https://github.com/mlbd/kuira-wp-dev-plugin ~/.claude/plugins/kuira-wp-dev-plugin
-```
-
-Then run `/plugin` to confirm `kuira-wp-dev-plugin` appears in the list.
+Run `/plugin` to confirm the installed modules appear in the list.
 
 ### Requirements
 
@@ -156,6 +158,20 @@ Verifies text-domain consistency, wraps untranslated strings, generates the `.po
 
 Runs the official **Plugin Check** — the same automated review wordpress.org runs on submission — and maps results to fix priorities. Complements `wp-security-audit`.
 
+### More opt-in skills
+
+| Skill | Trigger | Does |
+|-------|---------|------|
+| `wp-analyze` | "phpstan", "static analysis", "type check" | PHPStan + WP stubs; finds type/null/logic bugs WPCS can't |
+| `wp-e2e` | "playwright", "e2e", "browser test" | Playwright admin/front-UI tests against wp-env |
+| `wp-playground` | "playground", "blueprint", "preview without docker" | Instant WASM WordPress + Blueprint; demos & Docker-free testing |
+| `wp-deploy` | "ci", "github actions", "deploy to wordpress.org" | CI workflow + wordpress.org SVN deploy on tag |
+| `wp-hook-docs` | "document hooks", "hook reference" | Generates `HOOKS.md` of every action/filter the plugin fires |
+| `wp-modernize` | "modernize", "refactor legacy", "convert to OOP" | Incremental syntax/structure/namespacing modernization |
+| `wp-php8` | "php 8 compatibility", "phpcompatibility" | PHPCompatibilityWP scan + fixes; updates `Requires PHP` |
+| `wp-debug` | "enable debug", "debug.log", "fatal error" | Enables WP_DEBUG safely + reads/interprets the log |
+| `wp-help` | `/wp-help`, "list the wp commands" | Read-only map of every skill, agent, and hook |
+
 ---
 
 ## Agents Reference
@@ -165,8 +181,10 @@ Runs the official **Plugin Check** — the same automated review wordpress.org r
 | `wp-security-auditor` | haiku | Security-related code, "audit" |
 | `wp-code-reviewer` | sonnet | After features, "review my code" |
 | `wp-ui-researcher` | haiku | Before UI/UX design tasks |
+| `wp-performance-auditor` | sonnet | "performance audit", "why is this slow", data-heavy code |
+| `wp-a11y-auditor` | sonnet | "accessibility", "a11y", "wcag", after building admin UI |
 
-Invoke explicitly with `@wp-security-auditor` or `@wp-code-reviewer`.
+Invoke explicitly with `@wp-security-auditor`, `@wp-performance-auditor`, etc.
 
 ---
 
@@ -174,10 +192,15 @@ Invoke explicitly with `@wp-security-auditor` or `@wp-code-reviewer`.
 
 | Hook | Matcher | Action |
 |------|---------|--------|
-| PreToolUse | Bash | Blocks: `rm -rf` on system paths, `DROP`/`TRUNCATE TABLE`, curl/wget piped to a shell, automated `wp-config.php` edits, `chmod -R 777` |
-| PostToolUse | Write/Edit on `.php` | Runs phpcs → auto-fixes with phpcbf when errors are found |
-| Stop | — | Desktop notification (Linux `notify-send` / macOS `osascript`; no-op elsewhere) |
+| SessionStart | — | If you open a WP plugin with uninstalled `composer`/`npm` deps, reminds you to install them. Silent otherwise. |
+| PreToolUse | Bash | **bash-guard** blocks `rm -rf` on system paths, `DROP`/`TRUNCATE TABLE`, curl/wget piped to a shell, automated `wp-config.php` edits, `chmod -R 777`. **commit-gate** (opt-in) blocks `git commit` on staged PHP with syntax/WPCS errors. |
+| PostToolUse | Write/Edit on `.php` | Fast `php -l` syntax check, then phpcs → auto-fix with phpcbf |
+| Stop | — | Desktop notification (Linux `notify-send` / macOS `osascript` / Windows BurntToast) |
 | PostToolUseFailure | Bash | Adds a diagnostic hint when a Bash command fails |
+
+**Opt-in commit gate.** The commit gate is **off by default**. Enable it by setting `KUIRA_COMMIT_GATE=1` in your environment — then a `git commit` is blocked if staged PHP files have syntax errors or WPCS errors.
+
+**Optional statusline.** `statusline.sh` shows the current plugin name + version in your status bar. It's not auto-enabled (that would override your own statusline) — turn it on via `/statusline` or a `statusLine` entry in `settings.json` pointing at the script.
 
 ---
 
@@ -202,42 +225,54 @@ kuira adds:            WordPress domain knowledge (scaffolding, WPCS, hooks, sec
 ## File Structure
 
 ```
-kuira-wp-dev-plugin/
+kuira-wp-dev-plugin/                  ← marketplace repo
 ├── .claude-plugin/
-│   ├── plugin.json              ← plugin manifest
-│   └── marketplace.json         ← marketplace manifest
-├── skills/
-│   ├── wp-new/SKILL.md          ← /wp-new interactive wizard (start here)
-│   ├── wp-scaffold/SKILL.md     ← generate a new plugin (React / Vue / vanilla)
-│   ├── wp-context/SKILL.md      ← auto-loads on PHP, enforces WPCS
-│   ├── wp-endpoint/SKILL.md     ← secure REST/AJAX handler scaffolder
-│   ├── wp-block/SKILL.md        ← Gutenberg block scaffolder
-│   ├── wp-db/SKILL.md           ← dbDelta schema + migrations
-│   ├── wp-test/SKILL.md         ← wp-env + PHPUnit testing
-│   ├── wp-i18n/SKILL.md         ← translation readiness + .pot
-│   ├── wp-readme/SKILL.md       ← WordPress.org readme.txt generator
-│   ├── wp-plugin-check/SKILL.md ← official Plugin Check (PCP)
-│   ├── wp-ui-visual/SKILL.md    ← visual companion routing
-│   ├── wp-release/SKILL.md      ← release workflow
-│   └── wp-security-audit/SKILL.md ← security scanning
-├── agents/
-│   ├── wp-security-auditor.md   ← haiku, read-only scan
-│   ├── wp-code-reviewer.md      ← sonnet, quality review
-│   └── wp-ui-researcher.md      ← haiku, UI context survey
-├── hooks/
-│   ├── hooks.json               ← hook configuration
-│   └── scripts/
-│       ├── bash-guard.sh        ← PreToolUse safety gate
-│       └── wpcs-check.sh        ← PostToolUse WPCS enforcement
-├── .mcp.json                    ← GitHub + Fetch MCP servers
-├── settings.json                ← model + permissions defaults
-├── CONTRIBUTING.md
-├── CHANGELOG.md
-├── LICENSE
-└── README.md
+│   └── marketplace.json              ← lists the 4 plugins
+├── plugins/
+│   ├── kuira-wp-core/                ← build essentials (start here)
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── skills/                   ← wp-new, wp-scaffold, wp-context, wp-endpoint,
+│   │   │                                wp-db, wp-block, wp-ui-visual, wp-help
+│   │   ├── agents/                   ← wp-ui-researcher
+│   │   ├── hooks/                    ← session-start, bash-guard, wpcs-check, Stop notify
+│   │   ├── settings.json
+│   │   ├── statusline.sh             ← optional WP-aware statusline
+│   │   └── .mcp.json                 ← GitHub + Fetch MCP servers
+│   ├── kuira-wp-quality/             ← test · analyze · audit
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── skills/                   ← wp-test, wp-e2e, wp-playground, wp-analyze,
+│   │   │                                wp-security-audit, wp-plugin-check
+│   │   ├── agents/                   ← security / code-review / performance / a11y
+│   │   └── hooks/                    ← commit-gate (opt-in)
+│   ├── kuira-wp-ship/                ← release · publish · docs
+│   │   ├── .claude-plugin/plugin.json
+│   │   └── skills/                   ← wp-release, wp-deploy, wp-readme, wp-i18n, wp-hook-docs
+│   └── kuira-wp-maintain/            ← legacy · debug
+│       ├── .claude-plugin/plugin.json
+│       └── skills/                   ← wp-modernize, wp-php8, wp-debug
+├── scripts/validate.sh               ← repo self-check (CI runs this)
+├── .github/workflows/validate.yml    ← CI: shellcheck + JSON + name/frontmatter
+├── docs/AUTHORING.md                 ← contributor guide
+├── examples/acme-notes/              ← reference plugin produced by /wp-new
+├── fixtures/                         ← vulnerable/ + clean/ (prove the auditors)
+├── CONTRIBUTING.md · CODE_OF_CONDUCT.md · SECURITY.md · CHANGELOG.md · README.md
 ```
 
 ---
+
+## Examples & validation
+
+The toolkit is proven, not just described:
+
+- **[`examples/acme-notes`](examples/acme-notes)** — a complete reference plugin
+  generated by `/wp-new` (React admin + secure REST controller + custom table +
+  PHPUnit tests + Playground Blueprint). It shows exactly what the toolkit produces,
+  and CI holds it to the same WPCS standard the toolkit enforces.
+- **[`fixtures/`](fixtures)** — `vulnerable/` (seven planted security issues) and
+  `clean/` (the fixes). Point `@wp-security-auditor` at `fixtures/vulnerable` to
+  verify the auditor catches all seven; `fixtures/README.md` maps each `[Vn]` marker
+  to its expected detection. These fixtures already caught (and we fixed) a real
+  reflected-XSS detection gap in the concatenated-`echo` form.
 
 ## Configuration Notes
 
@@ -248,8 +283,14 @@ kuira-wp-dev-plugin/
 
 ## Contributing
 
-Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Good first contributions: new WP/WooCommerce patterns for `wp-context`, additional security checks, or cross-platform hook improvements.
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) and the skill/agent/hook conventions in [docs/AUTHORING.md](docs/AUTHORING.md). Before opening a PR, run the repo self-check (the same one CI runs):
+
+```bash
+bash scripts/validate.sh
+```
+
+It verifies every JSON parses, each skill/agent's frontmatter `name` matches its path, required frontmatter keys exist, and the hook scripts pass `shellcheck`. Good first contributions: new WP/WooCommerce patterns for `wp-context`, additional security checks, or cross-platform hook improvements. Please also read the [Code of Conduct](CODE_OF_CONDUCT.md); report security issues per [SECURITY.md](SECURITY.md).
 
 ## License
 
-[MIT](LICENSE) © Mohammad Limon Mia
+Licensed under [GPL-2.0-or-later](LICENSE) © Mohammad Limon Mia. WordPress plugins generated by this toolkit also carry `GPL-2.0-or-later` headers — the standard for the WordPress.org directory.
