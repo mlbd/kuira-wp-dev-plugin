@@ -7,7 +7,7 @@
     {
       "name": "kuira-wp-dev-plugin",
       "source": ".",
-      "description": "WordPress plugin developer toolkit — WPCS enforcement, security auditing, Superpowers visual companion routing, release automation, and Oasis Workflow Pro patterns."
+      "description": "WordPress plugin developer toolkit — new-plugin scaffolding, WPCS enforcement, security auditing, Superpowers visual companion routing, and release automation."
     }
   ]
 }

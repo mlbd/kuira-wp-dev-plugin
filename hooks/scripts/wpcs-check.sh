@@ -6,7 +6,25 @@ set -uo pipefail
 
 # Read the tool input JSON from stdin
 INPUT=$(cat)
-FILE=$(echo "$INPUT" | jq -r '.tool_input.path // .tool_input.file_path // ""' 2>/dev/null || echo "")
+
+# Pick a JSON parser that actually works (Windows Store `python3` stub is on PATH
+# but non-functional, so probe before trusting it).
+PY=""
+for c in python3 python; do
+  if command -v "$c" >/dev/null 2>&1 && printf '{}' | "$c" -c 'import json,sys; json.load(sys.stdin)' >/dev/null 2>&1; then
+    PY="$c"
+    break
+  fi
+done
+
+# Extract the edited file path — prefer jq, fall back to python, then skip.
+if command -v jq >/dev/null 2>&1; then
+  FILE=$(printf '%s' "$INPUT" | jq -r '.tool_input.path // .tool_input.file_path // ""' 2>/dev/null || echo "")
+elif [ -n "$PY" ]; then
+  FILE=$(printf '%s' "$INPUT" | "$PY" -c 'import sys,json; d=json.load(sys.stdin).get("tool_input",{}); print(d.get("path") or d.get("file_path") or "")' 2>/dev/null || echo "")
+else
+  exit 0
+fi
 
 # Only run on PHP files
 if [ -z "$FILE" ] || [[ "$FILE" != *.php ]]; then

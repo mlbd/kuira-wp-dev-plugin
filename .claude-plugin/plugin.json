@@ -2,7 +2,7 @@
   "name": "kuira-wp-dev-plugin",
   "displayName": "Kuira WP Dev Plugin",
   "version": "1.0.0",
-  "description": "Kuira WP Dev Plugin — WordPress plugin developer toolkit. Enforces WPCS, routes UI/UX tasks to Superpowers visual companion, audits security, manages releases, and provides Oasis Workflow Pro patterns.",
+  "description": "Kuira WP Dev Plugin — WordPress plugin developer toolkit. Scaffolds new WPCS-compliant plugins, enforces WordPress Coding Standards, routes UI/UX tasks to the Superpowers visual companion, audits security, and automates releases.",
   "author": "Mohammad Limon Mia",
   "license": "MIT",
   "tags": ["wordpress", "php", "woocommerce", "plugin-development", "wpcs", "kuira"],

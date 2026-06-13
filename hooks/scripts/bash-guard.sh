@@ -6,16 +6,38 @@ set -euo pipefail
 
 # Read the tool input JSON from stdin
 INPUT=$(cat)
-CMD=$(echo "$INPUT" | jq -r '.tool_input.command // ""' 2>/dev/null || echo "")
+
+# Pick a JSON parser that actually works. `command -v python3` can resolve to the
+# Windows Store alias stub (on PATH but non-functional), so probe before trusting it.
+PY=""
+for c in python3 python; do
+  if command -v "$c" >/dev/null 2>&1 && printf '{}' | "$c" -c 'import json,sys; json.load(sys.stdin)' >/dev/null 2>&1; then
+    PY="$c"
+    break
+  fi
+done
+
+# Extract .tool_input.command — prefer jq, fall back to python, then fail open.
+if command -v jq >/dev/null 2>&1; then
+  CMD=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // ""' 2>/dev/null || echo "")
+elif [ -n "$PY" ]; then
+  CMD=$(printf '%s' "$INPUT" | "$PY" -c 'import sys,json; print(json.load(sys.stdin).get("tool_input",{}).get("command",""))' 2>/dev/null || echo "")
+else
+  # No JSON parser available — fail open (cannot inspect the command).
+  exit 0
+fi
 
 if [ -z "$CMD" ]; then
   exit 0
 fi
 
 # --- Block 1: Destructive rm outside safe dirs ---
-if echo "$CMD" | grep -qE "rm\s+-rf?\s+/(?!(tmp|var/tmp|home/[^/]+/tmp))"; then
-  echo "Blocked: rm -rf on a system path outside /tmp. Confirm this is intentional and run manually." >&2
-  exit 2
+# (grep -E has no lookahead, so match an absolute-path rm -rf, then allow-list /tmp.)
+if echo "$CMD" | grep -qE "rm[[:space:]]+-[a-z]*r[a-z]*f?[a-z]*[[:space:]]+/"; then
+  if ! echo "$CMD" | grep -qE "rm[[:space:]]+-[a-z]+[[:space:]]+/(tmp|var/tmp)(/|[[:space:]]|$)"; then
+    echo "Blocked: rm -rf on a system path outside /tmp. Confirm this is intentional and run manually." >&2
+    exit 2
+  fi
 fi
 
 # --- Block 2: Dropping WordPress tables ---

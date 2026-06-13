@@ -23,14 +23,12 @@ disable-model-invocation: false
 - Functions/variables: `snake_case`
 - Classes: `PascalCase`
 - Constants: `UPPER_SNAKE_CASE`
-- Hooks: `{plugin_prefix}_{context}_{action}` e.g. `oasis_wf_before_submit`
+- Hooks: `{plugin_prefix}_{context}_{action}` e.g. `myplugin_before_submit`
 
-**Text domain:** Use only the registered slug. Never hardcode strings without `__()` or `_e()`.
-- Oasis Workflow Pro → `oasiswf`
-- Formcierge → `formcierge`
-- Mockivo → `mockivo`
-- Postyra → `postyra`
-- Lineflow → `lineflow`
+**Text domain:** Use only the plugin's registered slug as the text domain, and use it
+consistently in every `__()`, `_e()`, `esc_html__()`, etc. Never hardcode user-facing
+strings without a translation function. The text domain should match the plugin's folder
+slug (e.g. a plugin in `my-plugin/` uses the `my-plugin` text domain).
 
 **Escaping — required before every output:**
 | Context | Function |

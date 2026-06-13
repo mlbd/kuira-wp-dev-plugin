@@ -77,8 +77,8 @@ The Superpowers visual companion opens a local browser URL with:
 - **Wireframe sketches** — low-fidelity structure before full mockup
 
 This is most valuable for: new admin pages, WooCommerce product display redesigns,
-Gutenberg block UI, form builder field types (Formcierge), mockup canvas layouts (Mockivo),
-and editorial workflow stage visuals (Postyra/Oasis).
+Gutenberg block UI, form builder field types, mockup canvas layouts, dashboard widgets,
+and any multi-step or stateful admin interface.
 
 Always use the Visual Companion phase before writing any PHP templates, React components,
 or CSS — a 15-minute visual decision prevents hours of rework.
