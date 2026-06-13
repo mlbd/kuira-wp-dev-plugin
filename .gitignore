@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+/tmp/claude-wp-bash.log
+
+# Dependencies (this is a config plugin, no deps needed)
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+*.zip
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
